@@ -1,0 +1,14 @@
+{
+  "strategy_id": "C005_prev_day_fade",
+  "strategy_name": "前日NY高安の初回タッチ反発",
+  "version": "v1",
+  "status": "REJECTED",
+  "created_at": "2026-07-08",
+  "last_modified_at": "2026-07-08",
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "前日高値・安値への当日初回タッチで逆張り。トレンドフィルタ・コアタイム限定・初回タッチ限定でも敗北。",
+  "expected_performance": {"EV_R": -0.111, "conservative_EV_R": -0.359, "notes": "IS n=452。OOS -0.166。WF 0勝11敗"},
+  "skeptic_review": {"overfitting_risk": "low", "objections": ["全条件で一貫マイナス。エッジ不在が明確", "系統的示唆: 参照価格逆張りファミリー(C013/C014)の事前確率も低い"], "resolved": true, "reviewed_at": "2026-07-08"},
+  "reference": "research/backtest_batch2_results.json"
+}

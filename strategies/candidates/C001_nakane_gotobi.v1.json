@@ -1,0 +1,26 @@
+{
+  "strategy_id": "C001_nakane_gotobi",
+  "strategy_name": "ゴトー日仲値ドル買いフロー",
+  "version": "v1",
+  "status": "REJECTED",
+  "created_at": "2026-07-06",
+  "last_modified_at": "2026-07-07",
+  "approved_at": null,
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "ゴトー日(5・10日、前営業日繰上げ)の東京9時台に実需のドル買いが仲値(9:55)へ向けて集中するという構造仮説。9:00-9:15にロング、9:55までに決済。",
+  "rules": {
+    "entry": ["ゴトー日(祝日調整済み)である", "JST 9:00以降の最初のバー始値で買い", "イベント除外ウィンドウ外", "コアタイム内", "実測スプレッド0.3pips以下"],
+    "exit": ["9:55直前のバー終値で時間決済", "SL到達時は即時"],
+    "stop_loss": "固定pips(パラメータ、10-20)",
+    "take_profit": "原則なし(時間決済)またはTPパラメータ",
+    "no_trade_conditions": ["非ゴトー日", "日本祝日", "介入後48時間", "日次停止フラグあり"]
+  },
+  "expected_performance": {"EV_R": null, "conservative_EV_R": null, "net_EV_R_after_ai_cost": null, "conservative_net_EV_R_after_ai_cost": null, "win_rate": null, "avg_win_R": null, "avg_loss_R": null, "max_drawdown_R": null, "max_losing_streak": null},
+  "ai_cost_profile": {"research_ai_cost_jpy": "batch_001に合算(検証完了時に配賦)", "expected_deployment_trades": 72, "allocated_research_ai_cost_per_trade_jpy": null, "expected_ai_cost_per_trade_jpy": 0, "can_run_without_fable5": true, "recommended_runtime_model": "script"},
+  "live_performance": {},
+  "known_failure_modes": ["周知のアノマリーで期待値が消失している可能性", "下落トレンド日の逆行", "月末・連休前の変則フロー"],
+  "skeptic_review": {"overfitting_risk": "low", "objections": ["全12設定・全年度で一貫マイナス(IS EV_R -0.109、グリッド内プラス設定0%)。エッジ自体が観測されない。周知アノマリーの消失と判断", "詳細: research/backtest_batch1_results.json"], "resolved": true, "reviewed_at": "2026-07-07"},
+  "risk_limits": {"risk_per_trade_jpy": 2500, "daily_loss_limit_jpy": 20000, "daily_ai_cash_cost_limit_jpy": 0, "weekly_review_required": true, "max_spread_pips": 0.3},
+  "version_history": [{"version": "v1", "date": "2026-07-07", "change": "初版・バックテスト開始", "reason": "batch_001第1陣"}]
+}

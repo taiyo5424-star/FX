@@ -1,0 +1,22 @@
+{
+  "strategy_id": "C010_rates_divergence",
+  "strategy_name": "米10年金利との短期乖離収斂",
+  "version": "v1",
+  "status": "REJECTED",
+  "created_at": "2026-07-08",
+  "last_modified_at": "2026-07-08",
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "日次ローリング回帰残差のzスコア極端値を翌朝フェード。相関レジームフィルタ(corr60>=0.3)付き。",
+  "expected_performance": {"EV_R": -0.182, "conservative_EV_R": -0.468, "notes": "IS n=53。全16設定マイナス(最良-0.182)。OOS -0.059。WF 3/10"},
+  "skeptic_review": {
+    "overfitting_risk": "low",
+    "objections": [
+      "全設定一貫マイナス=エッジ不在が明確。金利相関(corr60中央値0.51)は実在するが残差は収斂しない",
+      "エントリー時刻分布(9-10時JSTのみ)でルックアヘッドなし確認済み",
+      "派生仮説『残差モメンタム(符号反転)』は同一データでの即検証=pハッキングのため禁止。将来の新データでのみ検証可(C017としてIDEA記録)"
+    ],
+    "resolved": true, "reviewed_at": "2026-07-08"
+  },
+  "reference": "research/backtest_c010_results.json"
+}

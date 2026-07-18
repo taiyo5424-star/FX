@@ -1,0 +1,6 @@
+source: HistData.com ASCII M1 (BID base, volume列なし)
+timezone: original EST(UTC-5 fixed) -> converted to UTC
+rows: 1246837
+range: 2023-01-01 22:00:00+00:00 .. 2026-06-26 21:58:00+00:00
+price range: 127.218 .. 161.949
+failed: []

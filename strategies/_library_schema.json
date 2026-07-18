@@ -1,0 +1,64 @@
+{
+  "_comment": "戦略ライブラリのスキーマ。1戦略1ファイル(strategy_id.vN.json)。上書き禁止・新version作成のみ。",
+  "strategy_id": "",
+  "strategy_name": "",
+  "version": "",
+  "status": "IDEA / BACKTEST / OUT_OF_SAMPLE / WALK_FORWARD / STRESS_TEST / PAPER_TRADE / MICRO_LIVE / APPROVED / PAUSED / RETIRED / REJECTED / RESEARCH_ONLY",
+  "created_at": "",
+  "last_modified_at": "",
+  "approved_at": "",
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "",
+  "rules": {
+    "entry": [],
+    "exit": [],
+    "stop_loss": "",
+    "take_profit": "",
+    "no_trade_conditions": []
+  },
+  "expected_performance": {
+    "EV_R": "", "conservative_EV_R": "",
+    "net_EV_R_after_ai_cost": "", "conservative_net_EV_R_after_ai_cost": "",
+    "win_rate": "", "avg_win_R": "", "avg_loss_R": "",
+    "max_drawdown_R": "", "max_losing_streak": ""
+  },
+  "validation_history": {
+    "backtest": {"period": "", "trades": 0, "result": "", "date": ""},
+    "out_of_sample": {"period": "", "trades": 0, "result": "", "date": ""},
+    "walk_forward": {"windows": 0, "positive_windows": 0, "result": "", "date": ""},
+    "stress_test": {"result": "", "date": ""},
+    "paper_trade": {"signals": 0, "period": "", "result": "", "date": ""},
+    "micro_live": {"trades": 0, "result": "", "date": ""}
+  },
+  "ai_cost_profile": {
+    "research_ai_cost_jpy": "",
+    "expected_deployment_trades": "",
+    "allocated_research_ai_cost_per_trade_jpy": "",
+    "expected_ai_cost_per_trade_jpy": "",
+    "can_run_without_fable5": false,
+    "recommended_runtime_model": "script / cheaper_model / Fable5"
+  },
+  "live_performance": {
+    "trades": "", "actual_EV_R": "", "actual_net_EV_R_after_ai_cost": "",
+    "actual_win_rate": "", "actual_avg_win_R": "", "actual_avg_loss_R": "",
+    "actual_max_drawdown_R": "", "actual_slippage_pips": "",
+    "actual_spread_pips": "", "actual_ai_cost_jpy": ""
+  },
+  "known_failure_modes": [],
+  "skeptic_review": {
+    "overfitting_risk": "low / medium / high",
+    "objections": [],
+    "resolved": false,
+    "reviewed_at": ""
+  },
+  "risk_limits": {
+    "risk_per_trade_jpy": "",
+    "daily_loss_limit_jpy": 20000,
+    "daily_ai_cash_cost_limit_jpy": "",
+    "weekly_review_required": true
+  },
+  "version_history": [
+    {"version": "", "date": "", "change": "", "reason": ""}
+  ]
+}

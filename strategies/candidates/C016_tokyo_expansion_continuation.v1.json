@@ -1,0 +1,22 @@
+{
+  "strategy_id": "C016_tokyo_expansion_continuation",
+  "strategy_name": "東京レンジ拡大日のトレンド継続",
+  "version": "v1",
+  "status": "REJECTED",
+  "created_at": "2026-07-08",
+  "last_modified_at": "2026-07-08",
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "C015研究(東京レンジ拡大→トレンド日リフト2.49x)から導出した15時以降の順張り継続。統計的リフトは実在するがコスト後EVへの変換に失敗。",
+  "expected_performance": {"EV_R": 0.087, "conservative_EV_R": -0.333, "notes": "修正後IS n=36。OOS -0.309。WF合計-3.9R"},
+  "skeptic_review": {
+    "overfitting_risk": "high",
+    "objections": [
+      "初回実行のPASS_ALL(IS+1.14R)はlondon_openモードのルックアヘッドバイアスによる偽成績(取引明細突合で発見)",
+      "修正後はサンプル36と少なく、期待値も基準未達",
+      "教訓をdocs/04『既知のルックアヘッド落とし穴』に恒久記録済み"
+    ],
+    "resolved": true, "reviewed_at": "2026-07-08"
+  },
+  "reference": "research/backtest_c016_results.json, research/batch2_report.md"
+}

@@ -1,0 +1,62 @@
+{
+  "_comment": "AIコスト管理・モデル委任ルール。7/8以降のFable5最小化が目的。",
+  "version": "1.0",
+  "pricing": {
+    "fable5_input_usd_per_1m": 10,
+    "fable5_output_usd_per_1m": 50,
+    "prompt_cache_discount_rate": 0.90,
+    "usd_jpy_rate_for_ai_cost": "当日仲値レートを使用。不明時は150で保守計算"
+  },
+  "task_routing": {
+    "script_or_rule_based": [
+      "価格監視", "スプレッド取得", "シグナル条件のPASS/FAIL判定",
+      "ポジションサイズ計算", "損益計算", "日次損失カウント",
+      "イベントカレンダー照合", "定型ログ記録", "チェックリスト機械生成",
+      "戦略劣化の閾値監視(直近20取引EV_R等)"
+    ],
+    "cheaper_model": [
+      "ログ要約", "定型レビューの下書き", "単純な異常の一次分類",
+      "候補戦略記録のフォーマット整形"
+    ],
+    "_layer_mapping_global_rule": {
+      "_ref": "~/.claude/CLAUDE.md 4層ルール(2026-07-08)に準拠",
+      "fable5": "重要×高度のみ(損害大×複雑推論の両方YES)。委譲成果物の最終レビュー",
+      "opus_sonnet": "調査の一次収集・下調べ・ドラフト一次レビュー(Agentツールで model: sonnet 指定)",
+      "haiku": "ファイル整理・フォーマット検証・データ集計(Agentツールで model: haiku 指定)",
+      "codex_cli": "ドラフト量産・定型スクリプト(ChatGPT Pro枠=別財布。利用可能なら優先)",
+      "script": "シグナル判定・EV計算・監視・ログ(AIコスト0が最優先。従来どおり)"
+    },
+    "fable5_allowed": [
+      "初期設計", "戦略仮説生成", "バックテスト設計", "過剰最適化検出",
+      "劣化原因分析", "週次・月次レビュー", "重大エラー原因分析",
+      "Champion/Challenger評価", "複雑なリスク判断", "ユーザー承認前の要約提案"
+    ],
+    "fable5_forbidden": [
+      "常時監視", "ティック判定", "単純計算", "定型出力再生成",
+      "キャッシュで足りる再分析", "期待改善額不明のタスク"
+    ]
+  },
+  "fable5_gate": {
+    "condition_1": "benefit_to_cost_ratio >= 3.0",
+    "condition_2": "誤発注・大損失・システム停止に関わる重要リスク判断",
+    "either_required": true,
+    "forbidden_if": [
+      "ratio < 1.0", "期待改善額が不明", "安価モデル/スクリプトで十分",
+      "キャッシュ再利用可能", "ライブ取引1回の期待利益 < AIコスト"
+    ]
+  },
+  "cost_reduction_practices": [
+    "プロンプトは共通プレフィックス化してキャッシュヒット率を上げる",
+    "ログはJSON1行形式で圧縮。長文の再説明を生成しない",
+    "週次レビューは定型テンプレに数値を埋める形式(自由記述最小化)",
+    "同一分析の再実行前にlogs/ai_costs/のキャッシュ済み結果を確認"
+  ],
+  "logging": {
+    "file": "logs/ai_costs/YYYY-MM-DD.jsonl",
+    "required_fields": [
+      "timestamp", "task_name", "model_name", "usage_mode",
+      "input_tokens_uncached", "input_tokens_cached", "output_tokens",
+      "cash_cost_jpy", "shadow_cost_jpy", "benefit_type", "notes"
+    ]
+  }
+}

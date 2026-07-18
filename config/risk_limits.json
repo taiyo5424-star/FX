@@ -1,0 +1,51 @@
+{
+  "_comment": "変更にはユーザー明示承認が必須。エージェントが独断で書き換えてはならない。",
+  "version": "1.0",
+  "effective_date": "2026-07-06",
+  "approved_by_user": false,
+  "account": {
+    "broker": "松井証券",
+    "account_type": "松井証券FX",
+    "symbol_whitelist": ["USD/JPY"],
+    "initial_equity_jpy": 500000
+  },
+  "per_trade": {
+    "standard_risk_pct_of_equity": 0.005,
+    "standard_risk_jpy_at_500k": 2500,
+    "absolute_max_risk_jpy": 5000,
+    "micro_live_max_risk_jpy": 1250
+  },
+  "daily": {
+    "max_loss_jpy": 20000,
+    "warning_stop_line_jpy": 16000,
+    "max_trades": 3,
+    "micro_live_max_loss_jpy": 5000,
+    "loss_definition": "確定損失+含み損+実行コスト+AI cash_cost_jpy+ツール費日割り"
+  },
+  "streak_and_drawdown": {
+    "max_consecutive_losses_before_halt": 4,
+    "micro_live_max_losses_before_halt": 3,
+    "max_drawdown_pct_before_demotion": 0.06,
+    "strategy_dd_review_threshold": "想定最大DDの80%到達で停止検討"
+  },
+  "ai_cost": {
+    "until_2026_07_07": "利用枠優先。shadow_cost_jpy必須記録",
+    "from_2026_07_08_daily_fable5_cash_limit_jpy": 1000,
+    "from_2026_07_08_weekly_fable5_cash_limit_jpy": 5000,
+    "unknown_cost_policy": "保守的に高く見積もる。不明なままライブ期待値を正当化しない"
+  },
+  "ev_thresholds": {
+    "min_EV_R": 0.15,
+    "min_conservative_EV_R": 0.05,
+    "min_net_EV_R": 0.15,
+    "min_conservative_net_EV_R": 0.05
+  },
+  "prohibited": [
+    "ナンピン", "マーチンゲール", "損切り先延ばし", "連敗後ロット増",
+    "両建て損失隠し", "ライブ中ルール変更", "エラー後自動再発注",
+    "ユーザー承認なしのリスク幅・AI上限変更", "1取引で日次上限の大部分を失う設計"
+  ],
+  "change_log": [
+    {"date": "2026-07-06", "change": "初版作成", "user_approved": "PENDING"}
+  ]
+}

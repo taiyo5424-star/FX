@@ -1,0 +1,26 @@
+{
+  "strategy_id": "C003_london_breakout",
+  "strategy_name": "東京レンジ→ロンドン初動ブレイク",
+  "version": "v1",
+  "status": "REJECTED",
+  "created_at": "2026-07-06",
+  "last_modified_at": "2026-07-07",
+  "approved_at": null,
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "東京時間(9:00-15:00 JST)レンジで滞留したオーダーがロンドン参入(夏7:00UTC/冬8:00UTC)後3時間以内に一方向へ解消される仮説。レンジ15-80pipsの日のみ。ブレイク方向へ追随。",
+  "rules": {
+    "entry": ["東京レンジ確定(200バー以上)", "レンジ幅15-80pips", "ロンドン窓内でレンジ±バッファをブレイクした次バー始値", "同一バー両抜けは見送り", "イベント除外ウィンドウ外"],
+    "exit": ["TP: レンジ幅×k または 23:00 JST時間決済", "SL到達時は即時"],
+    "stop_loss": "レンジ中央 or 固定20pips(8-40にクランプ)",
+    "take_profit": "レンジ幅×0.7 or 時間決済",
+    "no_trade_conditions": ["レンジ幅範囲外", "欧州休場", "介入後48時間", "日次停止フラグあり"]
+  },
+  "expected_performance": {"EV_R": null, "conservative_EV_R": null, "net_EV_R_after_ai_cost": null, "conservative_net_EV_R_after_ai_cost": null, "win_rate": null, "avg_win_R": null, "avg_loss_R": null, "max_drawdown_R": null, "max_losing_streak": null},
+  "ai_cost_profile": {"research_ai_cost_jpy": "batch_001に合算", "expected_deployment_trades": 150, "allocated_research_ai_cost_per_trade_jpy": null, "expected_ai_cost_per_trade_jpy": 0, "can_run_without_fable5": true, "recommended_runtime_model": "script"},
+  "live_performance": {},
+  "known_failure_modes": ["だましブレイク多発", "欧州指標日の乱高下", "レンジ定義のパラメータ感度"],
+  "skeptic_review": {"overfitting_risk": "medium", "objections": ["コスト後EV_Rゼロ近傍(IS +0.009)、保守的EV -0.283。WF合計は単一窓依存(過剰最適化防止ルール2のWF版に抵触)", "2024-2025のみ弱い正 → トレンド年限定の可能性を研究ノートに残す", "詳細: research/backtest_batch1_results.json"], "resolved": true, "reviewed_at": "2026-07-07"},
+  "risk_limits": {"risk_per_trade_jpy": 2500, "daily_loss_limit_jpy": 20000, "daily_ai_cash_cost_limit_jpy": 0, "weekly_review_required": true, "max_spread_pips": 0.3},
+  "version_history": [{"version": "v1", "date": "2026-07-07", "change": "初版・バックテスト開始", "reason": "batch_001第1陣"}]
+}
