@@ -1,0 +1,23 @@
+{
+  "strategy_id": "C018_event_drift",
+  "strategy_name": "米指標イベント後ドリフト(CPI/NFP/FOMC)",
+  "version": "v1",
+  "status": "REJECTED",
+  "created_at": "2026-07-18",
+  "last_modified_at": "2026-07-18",
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "発表T0+K分の初動が閾値以上のとき初動方向へ追随、時間決済(4-8h)。事前登録: batch_003_prereg.md。従来候補が除外してきたイベント時間帯を対象とする独立ファミリー。",
+  "expected_performance": {"EV_R": -0.991, "conservative_EV_R": -0.237, "notes": "OOS n=7 EV_R -0.991 / IS +0.494はテール数件(2023-12 FOMC +12.4R等)への利益集中。グリッド中央値 -0.076。ストレス -0.242"},
+  "skeptic_review": {
+    "overfitting_risk": "high",
+    "objections": [
+      "IS期待値は上位数取引に依存(利益集中基準に抵触)。保守EVはマイナス",
+      "エントリー時刻は全て発表直後(12/13/18/19 UTC台)でルックアヘッドなし確認済み",
+      "保有時間中央値0.3h=SL12-18pipsは発表後ノイズに刈られる構造。SL拡大は1取引リスク上限と矛盾するため不採用",
+      "介入日除外なしの感度分析でも改善なし"
+    ],
+    "resolved": true, "reviewed_at": "2026-07-18"
+  },
+  "reference": "research/backtest_batch3_results.json"
+}

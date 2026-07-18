@@ -1,0 +1,22 @@
+{
+  "strategy_id": "C019_daily_tsmom",
+  "strategy_name": "日次時系列モメンタム(スワップ算入)",
+  "version": "v1",
+  "status": "REJECTED",
+  "created_at": "2026-07-18",
+  "last_modified_at": "2026-07-18",
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "日足L日リターン符号の反転日に翌朝エントリー、3-5営業日保有。スワップ(ロング+0.75/ショート-2.0pips/日)算入。事前登録: batch_003_prereg.md。従来未検証の多日保有・日足時間軸ファミリー。",
+  "expected_performance": {"EV_R": -0.527, "conservative_EV_R": -0.352, "notes": "IS +0.023(閾値未達) / OOS n=40 EV_R -0.527。2025-2026年に一貫マイナス。ストレス -0.215"},
+  "skeptic_review": {
+    "overfitting_risk": "low",
+    "objections": [
+      "IS段階から閾値未達=エッジ不在が明確",
+      "エントリー時刻は全て東京9:00台、保有中央値76hで設計どおり。実装バグなし",
+      "2025年以降の介入を挟む円安レジームでは、多日モメンタムは介入逆流に構造的に脆弱"
+    ],
+    "resolved": true, "reviewed_at": "2026-07-18"
+  },
+  "reference": "research/backtest_batch3_results.json"
+}
