@@ -1,0 +1,2 @@
+{"ts":"2026-07-19T05:00:00+09:00","model":"claude-fable-5","usage_mode":"subscription_included","cash_cost_jpy":0,"shadow_cost_jpy":3500,"purpose":"第3陣検証(C018/C019事前登録・実行・Skeptic審査)+市場調査","charged_to":"research/batch3","notes":"利用枠内。shadow_costはAPI従量換算の概算"}
+{"ts":"2026-07-19T14:00:00+09:00","model":"claude-fable-5","usage_mode":"subscription_included","cash_cost_jpy":0,"shadow_cost_jpy":4000,"purpose":"運用基盤拡充(スプレッド実測・前進検証・C017準備・介入検知器・C012観察・Routine3本)","charged_to":"ops/infrastructure","notes":"利用枠内。研究費配賦は候補昇格時に按分"}

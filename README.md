@@ -53,6 +53,13 @@ FX自動売買/
 | scripts/backtest/engine.py | 約定シミュレーション・指標計算・イベント除外 | なし |
 | scripts/backtest/strategies_batch1.py | C001/C003/C009シグナル生成 | なし |
 | scripts/backtest/runner.py | IS/OOS/WF/ストレスの一括検証 | なし |
+| scripts/data/download_dukascopy.py | Dukascopy M1 BIDキャンドル取得(代替ソース) | なし |
+| scripts/data/download_dgs10.py | FRED DGS10(米10年金利)取得 | なし |
+| scripts/data/spread_profile_dukascopy.py | ティックから時間帯別スプレッド分布 | なし |
+| scripts/ops/forward_test.py | C009/C009v2の前進検証(週次Routineで自動実行) | なし |
+| scripts/ops/intervention_detector.py | 介入/急変検知(150pips/30分→24h停止判定) | なし |
+| scripts/ops/position_size.py | 発注数量計算(リスク上限準拠) | なし |
+| scripts/backtest/runner_c017.py | C017検証(2027-01-05解禁ゲート付き) | なし |
 
 ## 現在の状態(2026-07-18)
 - APPROVED戦略:**0件** → ライブ取引は全面 NO_TRADE(これが数値的に正しい状態)
@@ -69,7 +76,12 @@ FX自動売買/
   (docs/04「既知のルックアヘッド落とし穴」「多重検定への警戒」に恒久記録)
 - 松井証券:bot発注は規程違反と確定(research/matsui_research.md)→ 発注は必ずユーザー操作
 - 次のアクション:実測スプレッド収集(M2、**最重要ボトルネック**)、
-  8月上旬の介入日次内訳反映(M3、自動化済み)、C017は2026-Q4に新データで検証
+  8月上旬の介入日次内訳反映(M3、自動化済み)、C017は2027-01-05に検証解禁
+- 自動化(Routine、2026-07-18〜19整備):
+  fx-weekly-forward-test(毎週土曜)/ fx-monthly-review(毎月1日)/
+  fx-mof-intervention-update(2026-08-08、1回)
+- 運用基盤(2026-07-18追加):時間帯別スプレッド実測(JST5-8時は執行禁止)、
+  前進検証エンジン、介入サーキットブレーカー、ユーザーランブック(docs/08)
 - 要ユーザー対応:config/risk_limits.json 初期値承認、実測スプレッド収集協力
 
 ## 運用フロー(1日の流れ、7/8以降)

@@ -23,8 +23,13 @@ OUT = ROOT / "data"
 RAW.mkdir(parents=True, exist_ok=True)
 
 PAIR = "usdjpy"
-YEARS_FULL = [2023, 2024, 2025]
-MONTHS_2026 = [1, 2, 3, 4, 5, 6]
+# 過去年は年次ZIP、当年は先月分までの月次ZIPを自動対象
+# (HistDataの公表は約1週間遅れのため、月初実行時は先月分が failed に
+#  なることがある。その場合は翌週再実行)
+_today = dt.date.today()
+YEARS_FULL = list(range(2023, _today.year))
+MONTHS_CUR = [(_today.year, m) for m in range(1, 13)
+              if dt.date(_today.year, m, 1) < _today.replace(day=1)]
 
 session = requests.Session()
 session.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
@@ -86,7 +91,7 @@ def parse_zip(blob: bytes) -> pd.DataFrame:
 def main():
     frames = []
     failed = []
-    jobs = [(y, None) for y in YEARS_FULL] + [(2026, m) for m in MONTHS_2026]
+    jobs = [(y, None) for y in YEARS_FULL] + MONTHS_CUR
     for year, month in jobs:
         tag = f"{year}" if month is None else f"{year}-{month:02d}"
         print("fetching", tag, flush=True)

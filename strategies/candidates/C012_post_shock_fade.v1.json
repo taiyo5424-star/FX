@@ -1,0 +1,21 @@
+{
+  "strategy_id": "C012_post_shock_fade",
+  "strategy_name": "ショック日翌日の反転(急変後分類)",
+  "version": "v1",
+  "status": "IDEA_LOCKED",
+  "created_at": "2026-07-18",
+  "last_modified_at": "2026-07-18",
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "30分150pips超のショック日(介入検知器HALT閾値と同一定義)の翌営業日、ショック方向と逆向きにエントリーする平均回帰仮説。IS限定観察(n=20)で翌日の継続勝率40%・中央値-47pips(反転優位)、ボラはATR比1.2倍に高止まり。",
+  "prereg": {
+    "locked_at": "2026-07-18",
+    "basis": "research/study_c012_post_shock.md(IS期間のみの記述統計。旧OOS不使用)",
+    "hypothesis": "ショック翌日はボラ高止まり+反転優位(介入の戻り+過剰反応の平均回帰)",
+    "candidate_params": "逆向きエントリー(翌朝東京9:00)、SL=1.2xATR14、時間決済1-2日",
+    "unlock_condition": "新データでショック日サンプルが追加で20日以上溜まってから(年5-7日ペース→実質2027年後半以降)。旧OOS参照は禁止",
+    "interim": "週次前進検証Routineのデータでショック日翌日挙動を観察記録のみ(調整禁止)"
+  },
+  "expected_performance": {"EV_R": null, "notes": "未検証(サンプル形成待ち)。注意: 検知器HALTルール(ショック後24hNO_TRADE)とは行動が矛盾するため、仮に合格しても採用時はどちらを優先するかのユーザー判断が必要"},
+  "reference": "research/study_c012_post_shock.md / research/intervention_detector_design.md"
+}
