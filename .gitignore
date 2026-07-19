@@ -1,8 +1,17 @@
+# ランタイム生成物(コードではない)
 __pycache__/
 *.pyc
-data/raw_histdata/
+
+# ライブ/ペーパー実行のランタイムログ・状態(データであってコードでない)
+logs/signals/*.jsonl
+logs/daily/state_*.json
+logs/ops/*.jsonl
+logs/ai_costs/*.jsonl
+logs/spreads/*.jsonl
+
+# 大容量データ(再取得可能)
 data/*.parquet
+data/raw_histdata/
 data/raw_ticks/
 data/raw_bi5/
-data/usdjpy_m1_forward.parquet
 data/dgs10.csv
