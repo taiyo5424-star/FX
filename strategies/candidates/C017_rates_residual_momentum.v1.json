@@ -1,0 +1,22 @@
+{
+  "strategy_id": "C017_rates_residual_momentum",
+  "strategy_name": "金利残差モメンタム(C010符号反転ファミリー)",
+  "version": "v1",
+  "status": "IDEA_LOCKED",
+  "created_at": "2026-07-08",
+  "last_modified_at": "2026-07-18",
+  "approved_by_user": false,
+  "symbol": "USD/JPY",
+  "description": "米10年金利で説明できない残差変動(z>=閾値)の方向へ翌朝追随。C010(収斂・REJECTED)の符号反転。同一データ検証はpハッキングのため禁止され、2026-07以降の新データが6ヶ月溜まる2027-01-05に検証解禁。",
+  "prereg": {
+    "locked_at": "2026-07-18",
+    "unlock_date": "2027-01-05",
+    "is_period": "2023-01 .. 2026-06(旧OOS7回参照済みのため全てISに編入)",
+    "oos_period": "2026-07-01以降の新データのみ(真のOOS)",
+    "grid": "z_thr{1.5,2.0} x sl_atr{1.0,1.4} x tp_atr{1.5,2.5} x timeout{2,4} = 16通り、min_corr=0.3固定",
+    "pass_criteria": "既存checks + OOS新データのEV_R 95%CI下限>0 + OOS n>=25(不足時はDEFER)",
+    "runner": "scripts/backtest/runner_c017.py(解禁ゲートが2027-01-05前の実行を拒否)"
+  },
+  "expected_performance": {"EV_R": null, "notes": "未検証(解禁待ち)。準備一式は完了: DGS10配管(download_dgs10.py)、実装(strategies_c017.py)、ゲート付きランナー"},
+  "reference": "research/priority_queue.md M6 / docs/04 多重検定への警戒"
+}

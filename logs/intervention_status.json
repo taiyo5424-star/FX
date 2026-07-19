@@ -1,0 +1,13 @@
+{
+ "status": "OK",
+ "checked_at": "2026-07-18 23:59:00+00:00",
+ "data_last_bar": "2026-07-18 23:59:00+00:00",
+ "max_move30_pips_24h": 0.0,
+ "max_move30_pips_6h": 0.0,
+ "halt_until": null,
+ "reason": "",
+ "thresholds": {
+  "halt": 150.0,
+  "warn": 100.0
+ }
+}
