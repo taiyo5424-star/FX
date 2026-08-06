@@ -26,7 +26,7 @@ PAIR = "usdjpy"
 # 過去年は年次ZIP、当年は先月分までの月次ZIPを自動対象
 # (HistDataの公表は約1週間遅れのため、月初実行時は先月分が failed に
 #  なることがある。その場合は翌週再実行)
-_today = dt.date.today()
+_today = dt.datetime.now(dt.timezone.utc).date()   # UTC基準(クラウドとローカルで判定を統一)
 YEARS_FULL = list(range(2023, _today.year))
 MONTHS_CUR = [(_today.year, m) for m in range(1, 13)
               if dt.date(_today.year, m, 1) < _today.replace(day=1)]

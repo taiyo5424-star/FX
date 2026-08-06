@@ -1,4 +1,12 @@
-# 研究タスク優先順位表(2026-07-18更新)
+# 研究タスク優先順位表(2026-07-20更新)
+
+## 稼働中Routine一覧(クラウド一次系。IDは削除・変更時に必要)
+| Routine | 頻度 | trigger_id |
+|---|---|---|
+| fx-morning-signal-alert | 平日 8:15 JST | trig_015KZ8yfuF1jUjNwkrYmuPad |
+| fx-weekly-forward-test | 毎週土曜 9:00 JST | trig_01NcCkZt5yRemWVL3C3GNiqk |
+| fx-monthly-review | 毎月1日 9:00 JST | trig_013CsH9Y72FjvqGEiGqFYXuj |
+| fx-mof-intervention-update | 2026-08-08 9:00 JST(1回) | trig_01HRi1iwawK5AZk3oJ4299AC |
 
 ## 完了(2026-07-18 第3陣)
 - データ基盤再構築(コンテナ再作成に伴うM1再取得、前回と同一の1,246,837行を確認)

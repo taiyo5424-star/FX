@@ -1,0 +1,6 @@
+# USD/JPY研究システム 実行環境(Python 3.11+)
+pandas>=2.2
+pyarrow>=15.0
+numpy>=1.26
+requests>=2.31
+jpholiday>=0.1.10

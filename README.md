@@ -13,31 +13,27 @@
 
 ## ディレクトリ構成
 ```
-FX自動売買/
-├── README.md                    ← 本ファイル(全体アーキテクチャ)
+FX/
+├── README.md / AGENTS.md / CLAUDE.md ← 全体アーキテクチャ・エージェント規約
+├── requirements.txt             ← 実行環境定義(Python 3.11+)
 ├── config/
-│   ├── risk_limits.json         ← リスク上限(変更にはユーザー承認必須)
+│   ├── risk_limits.json         ← リスク上限(2026-07-20承認済み。変更は再承認必須)
 │   └── ai_cost_policy.json      ← AIコスト管理・モデル委任ルール
-├── docs/
-│   ├── 01_architecture.md       ← エージェント構造・処理フロー
-│   ├── 02_pretrade_checklist.md ← 取引前チェックリスト(最終版)
-│   ├── 03_ev_formulas.md        ← 期待値計算式(AIコスト込み・最終版)
-│   ├── 04_validation_pipeline.md← 検証パイプライン+過剰最適化防止
-│   ├── 05_execution_safety.md   ← ブラウザ/API安全ルール
-│   ├── 06_champion_challenger.md← Champion/Challenger運用
-│   └── 07_review_templates.md   ← 日次・週次・月次レビュー形式
+├── docs/                        ← 01設計 02チェックリスト 03EV式 04検証パイプライン
+│                                   05実行安全 06Champion/Challenger 07レビュー形式
+│                                   08アラートエンジン 09ユーザーランブック 10ローカル環境
 ├── strategies/
 │   ├── _library_schema.json     ← 戦略ライブラリのスキーマ
-│   ├── candidates/              ← Candidate戦略(IDEA〜PAPER_TRADE)
-│   │   └── batch_001_initial_hypotheses.md
+│   ├── candidates/              ← 候補台帳C001〜C019+事前登録文書(合格0件が現状)
 │   └── approved/                ← APPROVED戦略(現在:0件)
-├── logs/
-│   ├── _log_schema.md           ← ログ形式定義
-│   ├── trades/                  ← 取引後レビュー(1取引1ファイル)
-│   ├── daily/                   ← 日次レビュー
-│   └── ai_costs/                ← AI利用コストログ
-└── research/
-    └── priority_queue.md        ← 研究タスク優先順位表
+├── scripts/
+│   ├── backtest/                ← engine.py+各候補ランナー(runner_c017は解禁ゲート付き)
+│   ├── data/                    ← HistData/Dukascopy/FRED取得・スプレッドプロファイル
+│   ├── ops/                     ← 前進検証・介入検知・日中状態・サイズ計算
+│   └── live/                    ← シグナルアラート(音=ローカル/通知=クラウド。発注なし)
+├── data/                        ← 価格・金利・カレンダー(大容量はgitignore、再生成可)
+├── logs/                        ← 実行時ログ(形式は_log_schema.md。大半gitignore)
+└── research/                    ← 検証結果・市場コンテキスト・priority_queue.md
 ```
 
 ## スクリプト一覧
@@ -60,6 +56,9 @@ FX自動売買/
 | scripts/ops/intervention_detector.py | 介入/急変検知(150pips/30分→24h停止判定) | なし |
 | scripts/ops/position_size.py | 発注数量計算(リスク上限準拠) | なし |
 | scripts/backtest/runner_c017.py | C017検証(2027-01-05解禁ゲート付き) | なし |
+| scripts/live/signal_alert_engine.py | ローカル音アラート+発注案提示(発注機能なし) | なし |
+| scripts/live/morning_signal_check.py | 朝シグナル判定(fx-morning-signal-alert Routineの実体) | なし |
+| scripts/live/_smoke.py | アラートエンジンのスモークテスト(合成データ) | なし |
 
 ## 現在の状態(2026-07-18)
 - APPROVED戦略:**0件** → ライブ取引は全面 NO_TRADE(これが数値的に正しい状態)

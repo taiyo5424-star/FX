@@ -38,7 +38,8 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 def update_forward_data() -> pd.DataFrame | None:
     """Dukascopyから FORWARD_START〜昨日 のM1 BIDキャンドルを取得(キャッシュ利用)"""
     from download_dukascopy import fetch_day  # 既存実装を再利用
-    end = dt.date.today() - dt.timedelta(days=1)
+    # UTC基準(ローカルPCはJSTのため date.today() だと未完了のUTC当日を掴む)
+    end = dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)
     d = FORWARD_START.date()
     days = []
     while d <= end:

@@ -78,7 +78,9 @@ def main():
     a = ap.parse_args()
 
     if a.cmd == "init":
-        s = dict(date=str(dt.date.today()), equity_jpy=a.equity,
+        # ファイル名(today_path=JST)と同一のJST基準に統一(クラウドUTCでの日付ずれ防止)
+        s = dict(date=f"{dt.datetime.now(dt.timezone(dt.timedelta(hours=9))):%Y-%m-%d}",
+                 equity_jpy=a.equity,
                  realized_pnl_jpy=0, unrealized_pnl_jpy=0, execution_costs_jpy=0,
                  ai_cash_cost_jpy=0, ai_shadow_cost_jpy=0, tool_cost_jpy=0,
                  trades_today=0, consecutive_losses=0)

@@ -19,6 +19,15 @@
 """
 from __future__ import annotations
 import json, sys, time
+
+# Windowsでstdoutがパイプ/リダイレクトされるとcp932になり、絵文字(🔔等)で
+# UnicodeEncodeErrorクラッシュする(シグナル成立時に限って落ちる)。UTF-8に強制。
+for _s in (sys.stdout, sys.stderr):
+    try:
+        if _s.encoding and _s.encoding.lower() not in ("utf-8", "utf8"):
+            _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 from dataclasses import dataclass
 from datetime import datetime, timezone, timedelta
 from pathlib import Path

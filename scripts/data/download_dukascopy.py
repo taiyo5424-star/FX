@@ -33,7 +33,10 @@ session.headers["User-Agent"] = "Mozilla/5.0 (research; personal backtest data)"
 
 
 def fetch_day(day: dt.date):
-    """1日分を取得・デコード。戻り値: (day, rows|None) Noneは取得失敗"""
+    """1日分を取得・デコード。戻り値: (day, rows|None) Noneは取得失敗
+    注意: UTC当日以降(未完了日)はキャッシュに書かない。ローカルPC(JST)は
+    UTCより最大9時間先の日付になるため、未完了日を恒久キャッシュすると
+    その日のデータが永久に欠損する(2026-07-20検証で確認した汚染経路)。"""
     cache = RAW / f"{day:%Y-%m-%d}.bi5"
     if cache.exists():
         data = cache.read_bytes()
@@ -53,7 +56,8 @@ def fetch_day(day: dt.date):
                 time.sleep(1.5 * (attempt + 1))
         if data is None:
             return day, None
-        cache.write_bytes(data)
+        if day < dt.datetime.now(dt.timezone.utc).date():   # 完了日のみキャッシュ
+            cache.write_bytes(data)
     if not data:
         return day, []
     try:

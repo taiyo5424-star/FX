@@ -32,7 +32,7 @@ def load_recent() -> pd.DataFrame:
         try:
             from download_dukascopy import fetch_day
             rows = []
-            d = dt.date.today()
+            d = dt.datetime.now(dt.timezone.utc).date()   # UTC基準(ローカルTZ非依存)
             for _ in range(4):   # 直近4暦日(週末を跨いでも24h分を確保)
                 _, r = fetch_day(d)
                 if r:
