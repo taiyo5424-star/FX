@@ -70,6 +70,29 @@ schtasks /create /tn "FX-morning-signal" /sc weekly /d MON,TUE,WED,THU,FRI ^
 「リポジトリ直下のAGENTS.mdを読んで従って。特に発注実装の禁止と
 旧OOS期間の再参照禁止は絶対条件。」
 
+## Claudeセッション自体のWeb⇔ローカル引き継ぎ
+
+プロジェクト(コード)だけでなく、Claudeとの**セッション(会話の続き)**も移動できる:
+
+- **Web → ローカル**: PCにClaude Codeを導入後、`claude --teleport` を実行すると
+  セッション一覧から選んで会話履歴・ブランチごとローカルに引き継げる
+  (条件: 同じclaude.aiアカウント / リポジトリをclone済み / 作業ツリーが綺麗)。
+  引き継ぎ後はローカルが独立コピーになる(Web側とは以後同期しない)。
+- **ローカル → Web**: `claude --cloud "タスク内容"` で新規クラウドセッションを起動
+  (push済みのコミットが引き継がれる)。デスクトップアプリなら「Continue in」でも可。
+- **どちらでも文脈が通じる理由**: リポジトリ直下の CLAUDE.md / AGENTS.md を
+  Web・ローカル両方のClaude(とCodex)が自動で読むため。**状態の真実は常に
+  このリポジトリ**(会話が消えてもリポジトリだけで再開可能な設計)。
+
+### Claude Code のローカル導入(Windows、1コマンド)
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
+
+実行後 `claude` と打つとブラウザでログイン → そのまま使用可。
+確認は `claude doctor`。
+
 ## トラブルシュート
 
 - `ModuleNotFoundError` → 仮想環境の有効化忘れ(`.venv\Scripts\activate`)
