@@ -85,6 +85,36 @@ def build_df() -> pd.DataFrame:
     return df
 
 
+def data_quality(df: pd.DataFrame) -> list[str]:
+    """前進期間のデータ品質監査(C017解禁・観察台帳の前提が無欠損蓄積のため)。
+    戻り値: 警告行のリスト(問題なしなら健全性の1行)"""
+    fwd = df[df["time_utc"] >= FORWARD_START]
+    if len(fwd) == 0:
+        return ["- ⚠ 前進期間のデータが0行"]
+    out = []
+    days = pd.Series(fwd["time_utc"].dt.date.unique())
+    # 平日で1本もバーがない日(祝日・薄商いを含むため警告レベル)
+    span = pd.date_range(FORWARD_START.date(), fwd["time_utc"].iloc[-1].date(), freq="B")
+    missing = [str(d.date()) for d in span if d.date() not in set(days)]
+    # 1日あたりのバー数(通常1440弱。極端に少ない日は欠損疑い)
+    per_day = fwd.groupby(fwd["time_utc"].dt.date).size()
+    thin = [f"{d}({n}本)" for d, n in per_day.items() if n < 600]
+    # 価格の異常値(1分で100pips超=データ破損またはギャップ)
+    jump = (fwd["close"].diff().abs() / 0.01)
+    spikes = int((jump > 100).sum())
+    out.append(f"- カバレッジ: {len(days)}営業日分 / {len(fwd):,}バー")
+    if missing:
+        out.append(f"- ⚠ データ欠損日 {len(missing)}日: {', '.join(missing[:8])}"
+                   + (" ほか" if len(missing) > 8 else ""))
+    if thin:
+        out.append(f"- ⚠ バー数が少ない日 {len(thin)}日: {', '.join(thin[:5])}")
+    if spikes:
+        out.append(f"- ⚠ 1分で100pips超の跳躍 {spikes}件(介入・データ破損の両可能性)")
+    if not (missing or thin or spikes):
+        out.append("- 品質: 問題なし(欠損日・薄い日・異常跳躍いずれもなし)")
+    return out
+
+
 def main():
     df = build_df()
     data_end = df["time_utc"].iloc[-1]
@@ -113,7 +143,8 @@ def main():
              f"", f"- 実行日時(UTC): {pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}",
              f"- 前進期間: {FORWARD_START.date()} 〜 {data_end:%Y-%m-%d %H:%M} (UTC)",
              f"- コスト: 保守値(spread {cost.spread_pips}p + slip {cost.slip_pips}p×2 + AI {cost.ai_cost_R}R)",
-             f"- パラメータ: 凍結値固定(変更禁止)", ""]
+             f"- パラメータ: 凍結値固定(変更禁止)", "",
+             "## データ品質監査", *data_quality(df), ""]
     for name, tr in all_tr.items():
         closed = tr[~tr["open_censored"]] if len(tr) else tr
         m = metrics(closed)
