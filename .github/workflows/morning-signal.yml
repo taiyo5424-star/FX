@@ -1,0 +1,68 @@
+name: 朝シグナル判定
+
+# 平日 8:15 JST(= 23:15 UTC の日〜木)。手動実行も可。
+# 発注はしない。判定がALERT_TRADE/HALTのときだけIssueを立てて通知する。
+on:
+  schedule:
+    - cron: '15 23 * * 0-4'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  signal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/fx-trading-strategy-i2jwi7
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # 年次ZIP・ティックは不変なのでキャッシュして再取得を避ける
+      - name: 価格データのキャッシュ
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/raw_histdata
+            data/raw_bi5
+          key: fxdata-${{ github.run_id }}
+          restore-keys: fxdata-
+
+      - name: 価格データ準備
+        run: python scripts/data/download_histdata.py
+
+      - name: シグナル判定
+        id: check
+        run: |
+          set -o pipefail
+          python scripts/live/morning_signal_check.py 2>&1 | tee out.txt
+          echo "result=$(grep -m1 '^RESULT:' out.txt || echo 'RESULT: (なし)')" >> "$GITHUB_OUTPUT"
+
+      - name: 通知(発注案・急変時のみIssueを作成)
+        if: contains(steps.check.outputs.result, 'ALERT_TRADE') || contains(steps.check.outputs.result, 'HALT')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ steps.check.outputs.result }}
+        run: |
+          {
+            echo '```'
+            cat out.txt
+            echo '```'
+            echo ''
+            echo '***'
+            echo '発注はユーザーの手動操作です。注文確認画面と1対1照合してから実行してください(docs/05)。'
+            echo 'APPROVED戦略が0件の間、ALERT_TRADEは発生しないのが正常です。発生した場合は異常なので従わないでください。'
+          } > issue_body.md
+          gh issue create \
+            --title "[FX] $(date -u -d '+9 hours' '+%m/%d') ${RESULT}" \
+            --body-file issue_body.md \
+            --label automated
