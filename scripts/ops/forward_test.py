@@ -72,9 +72,12 @@ def build_df() -> pd.DataFrame:
     fwd = update_forward_data()
     if fwd is None and fwd_path.exists():
         fwd = pd.read_parquet(fwd_path)
-    frames = [hist[hist["time_utc"] >= WARMUP_START]]
+    # 前進期間はDukascopyのみを使う。HistData側も月次更新でこの期間に追いつくため、
+    # 期間で切らないと同一時刻に2ソースの価格が混在し、価格系列が両者を行き来する
+    # (2026-07-30の介入日で1分100pips超の跳躍が81件発生。品質監査が検出したバグ)。
+    frames = [hist[(hist["time_utc"] >= WARMUP_START) & (hist["time_utc"] < FORWARD_START)]]
     if fwd is not None and len(fwd):
-        frames.append(fwd)
+        frames.append(fwd[fwd["time_utc"] >= FORWARD_START])
     df = (pd.concat(frames).sort_values("time_utc")
           .drop_duplicates("time_utc", keep="first").reset_index(drop=True))
     t = df["time_utc"]

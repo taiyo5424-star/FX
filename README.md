@@ -81,10 +81,10 @@ FX/
 - 次のアクション:8月上旬の介入日次内訳反映(M3、自動化済み)、
   C017は2027-01-05に検証解禁。実測スプレッドは定常収集不要
   (手順書2026-07-08改定。PAPER_TRADE段階でシグナル時に約10回のみ)
-- 自動化(Routine、2026-07-18〜19整備):
-  **fx-morning-signal-alert(平日毎朝8:15、シグナル成立時のみ発注案をプッシュ通知)**/
-  fx-weekly-forward-test(毎週土曜)/ fx-monthly-review(毎月1日)/
-  fx-mof-intervention-update(2026-08-08、1回)
+- 自動化(2026-08-15にGitHub Actionsへ全面移行。旧Routineは不達のため無効化):
+  morning-signal(平日8:15、成立時のみIssue通知)/ weekly-forward-test(土曜9:00、
+  自動コミット)/ monthly-data-update(毎月1日、介入日を公式CSVから反映)。
+  定義は .github/workflows/(mainブランチ)、処理対象は作業ブランチ
 - 運用モデルB確立(2026-07-19):判定=機械(クラウド朝判定+ローカル音アラート
   scripts/live/signal_alert_engine.py)、発注=ユーザー手動(docs/09ランブック)
 - 運用基盤(2026-07-18追加):時間帯別スプレッド実測(JST5-8時は執行禁止)、
