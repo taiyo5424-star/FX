@@ -1,0 +1,13 @@
+# ランタイム生成物(コードではない)
+__pycache__/
+*.pyc
+
+# ライブ/ペーパー実行のランタイムログ・状態(データであってコードでない)
+logs/signals/*.jsonl
+logs/daily/state_*.json
+logs/ops/*.jsonl
+logs/ai_costs/*.jsonl
+logs/spreads/*.jsonl
+
+# 大容量データ
+data/*.parquet
