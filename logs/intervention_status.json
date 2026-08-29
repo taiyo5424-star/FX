@@ -1,9 +1,9 @@
 {
  "status": "OK",
- "checked_at": "2026-08-21 23:59:00+00:00",
- "data_last_bar": "2026-08-21 23:59:00+00:00",
- "max_move30_pips_24h": 27.5,
- "max_move30_pips_6h": 7.4,
+ "checked_at": "2026-08-28 23:59:00+00:00",
+ "data_last_bar": "2026-08-28 23:59:00+00:00",
+ "max_move30_pips_24h": 39.9,
+ "max_move30_pips_6h": 13.0,
  "halt_until": null,
  "reason": "",
  "thresholds": {
